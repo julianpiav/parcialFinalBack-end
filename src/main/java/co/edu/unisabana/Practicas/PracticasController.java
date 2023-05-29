@@ -3,6 +3,7 @@ package co.edu.unisabana.Practicas;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ public class PracticasController {
     @PostMapping(path = "/crear")
     public Respuesta crearPractica(@RequestBody @Valid PracticaDTO nuevaPractica){
         nuevaPractica.setCodigo(listaPracticas.size()+1);
+        nuevaPractica.setFecha(LocalDate.now());
+        System.out.println(nuevaPractica.getFecha());
         listaPracticas.add(nuevaPractica);
         return new Respuesta("Practica ingresada correctamente");
     }
