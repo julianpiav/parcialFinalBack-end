@@ -3,9 +3,8 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.lang.reflect.Array;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Objects;
 
 @Getter
@@ -20,7 +19,7 @@ public class PracticaDTO {
     @NotNull(message = "Mande el campo")
     @Size(min = 3, max = 50)
     private String supervisor;
-    private Date fecha;
+    private LocalDate fecha;
     private ArrayList<TareaDTO> tareas;
 
 

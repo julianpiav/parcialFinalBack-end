@@ -3,6 +3,7 @@ package co.edu.unisabana.Practicas;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,6 +17,8 @@ public class PracticasController {
     @PostMapping(path = "/crear")
     public Respuesta crearPractica(@RequestBody @Valid PracticaDTO nuevaPractica){
         nuevaPractica.setCodigo(listaPracticas.size()+1);
+        nuevaPractica.setFecha(LocalDate.now());
+        this.asignarCodigo(nuevaPractica.getTareas());
         listaPracticas.add(nuevaPractica);
         return new Respuesta("Practica ingresada correctamente");
     }
@@ -24,7 +27,7 @@ public class PracticasController {
         return listaPracticas;
     }
     @GetMapping(path = "/")
-    public List<PracticaDTO> obtenerEstudiantesPorFecha(@RequestParam @Valid Date fecha){
+    public List<PracticaDTO> obtenerEstudiantesPorFecha(@RequestParam @Valid LocalDate fecha){
         List<PracticaDTO> busqueda = new ArrayList<>();
         for(PracticaDTO practica : listaPracticas){
             if (practica.getFecha().equals(fecha)){
@@ -50,5 +53,10 @@ public class PracticasController {
     public Respuesta eliminarPracticas(@PathVariable @Valid int codigo){
         listaPracticas.removeIf(practica -> practica.getCodigo() == codigo);
         return new Respuesta("Practica borrada correctamente");
+    }
+    public void asignarCodigo(ArrayList<TareaDTO> listaTareas){
+        for (TareaDTO tarea: listaTareas) {
+            tarea.setCodigo(listaTareas.indexOf(tarea)+1);
+        }
     }
 }
